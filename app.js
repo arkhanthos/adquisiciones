@@ -7,6 +7,7 @@ const app = express();
 /**
  * Import Routes
  */
+const authRoute = require("./routes/authRoutes");
 const userRoute = require("./routes/usersRoutes");
 
 /**
@@ -28,6 +29,7 @@ app.use(express.static("uploads"));
 /**
  * Configure Routes
  */
+app.use(`/api/${process.env.API_VER}`, authRoute);
 app.use(`/api/${process.env.API_VER}`, userRoute);
 
 /**
