@@ -1,3 +1,4 @@
+const valEqualPass = require("../models/userModel");
 const validateUserRegister = (data) => {
     const {firstname, lastname, email, username, department, ccosto, password} = data;
     // ---- Validate FIRSTNAME
@@ -100,7 +101,6 @@ const validateLogin = (data) => {
     }
     return "OK";
 }
-
 const validateUserCreate = (data) => {
     const {firstname, lastname, email, username, role, password} = data;
     // ---- Validate FIRSTNAME
@@ -168,10 +168,45 @@ const validateUserCreate = (data) => {
         throw new Error("Your password must be longer than 8 characters, have at least 1 capital letter, have at least 1 number, and have at least 1 special character");
     }
 }
+//VALIDATE EQUAL PASSWORD
+const validateEqualPass = (data) => {
+    const { username, password } = data;
+    const passBd = valEqualPass.find({username:username, password:password});
+    if (typeof username !== 'string') {
+        throw new Error("UserName must be a string");
+    }
+    if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/i.test(username)) {
+        throw new Error("UserName must contain characters from a-z and space");
+    }
+    if(username !== passBd.username){
+        throw new Error("Username must be same as your username");
+    }
 
-
+    if (typeof password !== 'string') {
+        throw new Error("Password must be a string");
+    }
+    let pass = /^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040-\u002e])(?=.*[A-Z])(?=.*[a-z])\S{8,20}$/
+    if (!pass.test(password)) {
+        throw new Error("Your password must be longer than 8 characters, have at least 1 capital letter, have at least 1 number, and have at least 1 special character");
+    }
+    if(password !== passBd.password){
+        throw new Error("Password must be same as your password");
+    }
+}
+//VALIDATE USERNAME ONLY
+const valUsername = (data) => {
+    const { username } = data;
+    if (typeof username !== 'string') {
+        throw new Error("UserName must be a string");
+    }
+    if (!/^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/i.test(username)) {
+        throw new Error("UserName must contain characters from a-z and space");
+    }
+}
 module.exports = {
     validateUserRegister,
     validateLogin,
     validateUserCreate,
+    validateEqualPass,
+    valUsername
 }

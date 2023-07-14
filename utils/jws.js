@@ -33,10 +33,20 @@ function createRefreshTokken(user){
 
     return jwt.sign(payload, JWT_KEY);
 }
+/*
+//FIXME: BUSCAR MANERA DE MOSTRAR DATOS DEL TAX DOC //FIXME:
+function getId(taxdocument){
+    const taxPayload = {
+        taxPrincipalId : taxdocument
+    }
+    return taxPayload;
+}
+*/
 
-function decoded(token){
+function decoded(token){   //TODO: DECODED TRAE LOS DATOS DECODIFICADOS
     return jwt.decode(token, JWT_KEY, true);
 }
+
 
 module.exports = {
     createAccessTokken,

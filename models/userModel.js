@@ -15,6 +15,10 @@ const UserSchema = mongoose.Schema({
         type: String,
         default: "user"
     },
+    permisson : {
+        code: String,
+        namePermisson: String
+    },
     active: {
         type: Boolean,
         default: false
